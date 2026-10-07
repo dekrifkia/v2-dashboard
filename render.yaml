@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: inventory-admin-v2
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: FORCE_HTTPS
+        value: "true"
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: inventory-postgres
+          property: connectionString
+
+databases:
+  - name: inventory-postgres
+    plan: free
